@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberPath — Cybersecurity Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060a0f;
+    --surface: #0d1117;
+    --surface2: #111820;
+    --border: rgba(0,255,170,0.12);
+    --accent: #00ffaa;
+    --accent2: #00bfff;
+    --accent3: #ff4f7b;
+    --accent4: #ffcc00;
+    --text: #e0e8f0;
+    --muted: #5a7080;
+    --glow: rgba(0,255,170,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,170,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,170,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Glowing orbs */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    animation: orb-drift 20s ease-in-out infinite alternate;
+  }
+  .orb-1 { width: 600px; height: 600px; background: rgba(0,255,170,0.06); top: -200px; left: -200px; animation-delay: 0s; }
+  .orb-2 { width: 500px; height: 500px; background: rgba(0,191,255,0.06); bottom: -200px; right: -100px; animation-delay: -7s; }
+  .orb-3 { width: 300px; height: 300px; background: rgba(255,79,123,0.04); top: 50%; left: 50%; animation-delay: -14s; }
+
+  @keyframes orb-drift {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, 20px) scale(1.1); }
+  }
+
+  /* ===== NAVBAR ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    background: rgba(6,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--text); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 6px 14px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 2px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+  }
+  .nav-badge:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 180px 40px 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(48px, 8vw, 96px);
+    line-height: 0.92;
+    letter-spacing: -3px;
+    margin-bottom: 32px;
+  }
+  .hero h1 .line-accent { color: var(--accent); }
+  .hero h1 .line-dim { color: var(--muted); }
+
+  .hero-desc {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--accent);
+    display: block;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  /* ===== SECTION LAYOUT ===== */
+  .content-area {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px 120px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .section-title .hl { color: var(--accent); }
+
+  /* ===== ROADMAP TABS ===== */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    margin-bottom: 60px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 14px 20px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+  }
+  .tab-btn:hover:not(.active) {
+    background: rgba(0,255,170,0.07);
+    color: var(--accent);
+  }
+
+  /* ===== PHASE GRID ===== */
+  .phase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+    animation: fadeup 0.4s ease;
+  }
+  @keyframes fadeup {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+  }
+  .phase-card:hover {
+    border-color: rgba(0,255,170,0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,255,170,0.08);
+  }
+
+  .card-header {
+    padding: 24px 24px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .card-meta { flex: 1; }
+  .card-phase {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .card-body { padding: 20px 24px 24px; }
+
+  .topic-list { list-style: none; }
+  .topic-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13.5px;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .topic-item:last-child { border-bottom: none; }
+  .topic-item:hover { color: var(--text); }
+  .topic-bullet {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  .subtopic-group { margin-left: 14px; }
+  .subtopic-label {
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 12px 0 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  /* ===== TOOLS SECTION ===== */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    animation: fadeup 0.4s ease;
+  }
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 16px;
+    text-align: center;
+    transition: all 0.25s;
+    cursor: default;
+  }
+  .tool-card:hover {
+    border-color: rgba(0,255,170,0.4);
+    background: rgba(0,255,170,0.04);
+    transform: translateY(-2px);
+  }
+  .tool-emoji { font-size: 28px; margin-bottom: 10px; display: block; }
+  .tool-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+  .tool-tag {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+
+  /* ===== CERTS SECTION ===== */
+  .certs-container { animation: fadeup 0.4s ease; }
+  .cert-tier {
+    margin-bottom: 40px;
+  }
+  .cert-tier-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cert-tier-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .cert-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .cert-chip {
+    padding: 10px 20px;
+    border-radius: 2px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border: 1px solid;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .cert-chip:hover { transform: translateY(-2px); }
+  .cert-beginner { border-color: rgba(0,255,170,0.4); color: var(--accent); }
+  .cert-beginner:hover { background: rgba(0,255,170,0.1); }
+  .cert-intermediate { border-color: rgba(0,191,255,0.4); color: var(--accent2); }
+  .cert-intermediate:hover { background: rgba(0,191,255,0.1); }
+  .cert-advanced { border-color: rgba(255,79,123,0.4); color: var(--accent3); }
+  .cert-advanced:hover { background: rgba(255,79,123,0.1); }
+
+  /* ===== CAREER PATHS ===== */
+  .career-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    animation: fadeup 0.4s ease;
+  }
+  .career-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .career-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .career-card:hover::before { transform: scaleX(1); }
+  .career-card:hover {
+    border-color: rgba(0,255,170,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+  }
+  .career-icon { font-size: 32px; margin-bottom: 14px; display: block; }
+  .career-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .career-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ===== LANGUAGES ===== */
+  .lang-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    animation: fadeup 0.4s ease;
+  }
+  .lang-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    transition: all 0.25s;
+  }
+  .lang-card:hover {
+    border-color: rgba(0,255,170,0.3);
+    transform: translateY(-2px);
+  }
+  .lang-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .lang-emoji { font-size: 28px; }
+  .lang-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+  }
+  .lang-level {
+    margin-left: auto;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+  }
+  .level-beginner { background: rgba(0,255,170,0.12); color: var(--accent); }
+  .level-intermediate { background: rgba(0,191,255,0.12); color: var(--accent2); }
+  .level-advanced { background: rgba(255,79,123,0.12); color: var(--accent3); }
+
+  .lang-uses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .lang-use-tag {
+    font-size: 11.5px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.3px;
+  }
+
+  /* ===== PLATFORMS ===== */
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    animation: fadeup 0.4s ease;
+  }
+  .platform-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 22px 18px;
+    text-align: center;
+    transition: all 0.25s;
+  }
+  .platform-card:hover {
+    border-color: rgba(255,204,0,0.4);
+    background: rgba(255,204,0,0.03);
+    transform: translateY(-3px);
+  }
+  .platform-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+  .platform-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  .platform-type {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ===== HIDDEN TABS ===== */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 40px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+  }
+  footer span { color: var(--accent); }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: rgba(0,255,170,0.25); border-radius: 3px; }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 120px 20px 60px; }
+    .content-area { padding: 0 20px 80px; }
+    .tab-btn { font-size: 10px; padding: 12px 10px; min-width: 80px; }
+    .hero h1 { letter-spacing: -1px; }
+  }
+
+  /* Progress bar top */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index: 200;
+    transition: width 0.1s;
+  }
+
+  /* Blinking cursor */
+  .blink {
+    animation: blink 1s step-end infinite;
+    color: var(--accent);
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Chip highlight colors by category */
+  .c-green { background: rgba(0,255,170,0.08); border-color: rgba(0,255,170,0.25); }
+  .c-blue { background: rgba(0,191,255,0.08); border-color: rgba(0,191,255,0.25); }
+  .c-red { background: rgba(255,79,123,0.08); border-color: rgba(255,79,123,0.25); }
+  .c-yellow { background: rgba(255,204,0,0.08); border-color: rgba(255,204,0,0.25); }
+  .c-purple { background: rgba(153,102,255,0.08); border-color: rgba(153,102,255,0.25); }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#" class="nav-logo">CYBER<span>PATH</span></a>
+  <ul class="nav-links">
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#certs">Certifications</a></li>
+    <li><a href="#careers">Careers</a></li>
+    <li><a href="#languages">Languages</a></li>
+  </ul>
+  <button class="nav-badge" onclick="window.open('https://tryhackme.com','_blank')">START HACKING →</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Complete Cybersecurity Roadmap 2025</div>
+  <h1>
+    <div>MASTER</div>
+    <div class="line-accent">CYBER</div>
+    <div class="line-dim">SECURITY<span class="blink">_</span></div>
+  </h1>
+  <p class="hero-desc">
+    A structured, comprehensive roadmap from zero to security professional. Every skill, tool, certification, and career path — organized for your journey.
+  </p>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">12</span>
+      <span class="stat-label">Core Phases</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">50+</span>
+      <span class="stat-label">Tools Covered</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">15+</span>
+      <span class="stat-label">Certifications</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">9</span>
+      <span class="stat-label">Career Paths</span>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="content-area">
+
+  <!-- TAB BAR -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('roadmap', this)">📍 Roadmap</button>
+    <button class="tab-btn" onclick="switchTab('tools', this)">🔧 Tools</button>
+    <button class="tab-btn" onclick="switchTab('certs', this)">🏆 Certs</button>
+    <button class="tab-btn" onclick="switchTab('careers', this)">💼 Careers</button>
+    <button class="tab-btn" onclick="switchTab('languages', this)">💻 Languages</button>
+    <button class="tab-btn" onclick="switchTab('platforms', this)">🎯 Platforms</button>
+  </div>
+
+  <!-- ===== ROADMAP TAB ===== -->
+  <div id="tab-roadmap" class="tab-content active">
+    <div class="phase-grid">
+
+      <!-- Phase 1 -->
+      <div class="phase-card">
+        <div class="card-header c-green">
+          <div class="card-icon" style="background:rgba(0,255,170,0.12);">🖥️</div>
+          <div class="card-meta">
+            <div class="card-phase" style="color:var(--accent)">Phase 01</div>
+            <div class="card-title">Computer & IT Fundamentals</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="subtopic-label" style="color:var(--accent)">Computer Basics</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>CPU, RAM & Storage</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>BIOS / UEFI</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>File Systems</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Virtualization Basics</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent)">Operating Systems</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Linux Fundamentals</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Windows Fundamentals</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Permissions & Users</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Process & Memory Management</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent)">Command Line Skills</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Bash & PowerShell</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>File Navigation</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Scripting Basics</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase-card">
+        <div class="card-header c-blue">
+          <div class="card-icon" style="background:rgba(0,191,255,0.12);">🌐</div>
+          <div class="card-meta">
+            <div class="card-phase" style="color:var(--accent2)">Phase 02</div>
+            <div class="card-title">Networking Fundamentals</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="subtopic-label" style="color:var(--accent2)">Core Networking</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>OSI Model</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>TCP/IP & UDP</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>MAC & IP Addressing</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>Subnetting</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent2)">Network Services</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>DNS, DHCP, ARP, NAT</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>VPN</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent2)">Ports & Protocols</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>HTTP / HTTPS / FTP</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>SSH, SMB, SMTP</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent2)">Packet Analysis</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>Wireshark & Tcpdump</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>Traffic Inspection</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="phase-card">
+        <div class="card-header c-yellow">
+          <div class="card-icon" style="background:rgba(255,204,0,0.12);">🐍</div>
+          <div class="card-meta">
+            <div class="card-phase" style="color:var(--accent4)">Phase 03</div>
+            <div class="card-title">Programming & Scripting</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="subtopic-label" style="color:var(--accent4)">Python</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>Automation Scripts</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>Requests & APIs</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>Security Tools</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent4)">Web Technologies</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>HTML, CSS, JavaScript</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>HTTP Requests</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent4)">Backend & Databases</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>Node.js / PHP</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>REST APIs</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>SQL, MySQL, PostgreSQL</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>NoSQL Basics</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="phase-card">
+        <div class="card-header c-green">
+          <div class="card-icon" style="background:rgba(0,255,170,0.12);">⚙️</div>
+          <div class="card-meta">
+            <div class="card-phase" style="color:var(--accent)">Phase 04</div>
+            <div class="card-title">Linux & System Admin</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="subtopic-label" style="color:var(--accent)">Linux Administration</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Users & Groups</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Services & Cron Jobs</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Permissions</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent)">Server Management</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Apache & Nginx</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>SSH Hardening</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Logs Analysis</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent)">Containers & Cloud</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Docker & Kubernetes</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>AWS Basics</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent)"></span>Cloud Security</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Phase 5 -->
+      <div class="phase-card">
+        <div class="card-header c-purple">
+          <div class="card-icon" style="background:rgba(153,102,255,0.12);">🔒</div>
+          <div class="card-meta">
+            <div class="card-phase" style="color:#9966ff">Phase 05</div>
+            <div class="card-title">Cybersecurity Fundamentals</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="subtopic-label" style="color:#9966ff">Security Concepts</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>CIA Triad</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Risk Management</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Threat Modeling</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Attack Surface</li>
+          </ul>
+          <div class="subtopic-label" style="color:#9966ff">Cryptography</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Encryption & Hashing</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>SSL/TLS</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>PKI</li>
+          </ul>
+          <div class="subtopic-label" style="color:#9966ff">Auth Security</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>MFA, OAuth, JWT</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Session Security</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Access Control</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Phase 6 -->
+      <div class="phase-card">
+        <div class="card-header c-red">
+          <div class="card-icon" style="background:rgba(255,79,123,0.12);">💥</div>
+          <div class="card-meta">
+            <div class="card-phase" style="color:var(--accent3)">Phase 06</div>
+            <div class="card-title">Ethical Hacking & Pentesting</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="subtopic-label" style="color:var(--accent3)">Lab Setup</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>VirtualBox / VMware</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>Kali Linux & Parrot OS</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>Vulnerable Machines</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent3)">Reconnaissance</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>WHOIS, DNS Enum</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>Subdomain Discovery</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>OSINT</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent3)">Web App Testing</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>SQLi, XSS, CSRF</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>IDOR, SSRF</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>File Upload Vulns</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent3)">Exploitation</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>Metasploit</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>Reverse Shells</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent3)"></span>Privilege Escalation</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Phase 7 -->
+      <div class="phase-card">
+        <div class="card-header c-blue">
+          <div class="card-icon" style="background:rgba(0,191,255,0.12);">🛡️</div>
+          <div class="card-meta">
+            <div class="card-phase" style="color:var(--accent2)">Phase 07</div>
+            <div class="card-title">Defensive Security</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="subtopic-label" style="color:var(--accent2)">Blue Team Basics</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>SIEM & SOC Operations</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>Threat Hunting</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>Incident Response</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent2)">Monitoring Tools</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>Splunk & Wazuh</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>ELK Stack</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent2)">Endpoint & Forensics</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>EDR / XDR</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>Malware Analysis</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>Memory & Disk Forensics</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent2)"></span>Evidence Handling</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Phase 8 -->
+      <div class="phase-card">
+        <div class="card-header c-purple">
+          <div class="card-icon" style="background:rgba(153,102,255,0.12);">🔬</div>
+          <div class="card-meta">
+            <div class="card-phase" style="color:#9966ff">Phase 08</div>
+            <div class="card-title">Specialized Domains</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Web Security</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>API Security</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Cloud Security</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Mobile Security</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Wireless Security</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>IoT Security</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Blockchain Security</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:#9966ff"></span>Reverse Engineering</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Phase 9 - Bug Bounty -->
+      <div class="phase-card">
+        <div class="card-header c-yellow">
+          <div class="card-icon" style="background:rgba(255,204,0,0.12);">💰</div>
+          <div class="card-meta">
+            <div class="card-phase" style="color:var(--accent4)">Phase 09</div>
+            <div class="card-title">Real-World Practice</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="subtopic-label" style="color:var(--accent4)">Bug Bounty Platforms</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>HackerOne</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>Bugcrowd</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>Intigriti</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>YesWeHack</li>
+          </ul>
+          <div class="subtopic-label" style="color:var(--accent4)">Grow Your Presence</div>
+          <ul class="topic-list">
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>Open Source Contributions</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>Build Security Tools</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>Write Research Blogs</li>
+            <li class="topic-item"><span class="topic-bullet" style="background:var(--accent4)"></span>Freelancing</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== TOOLS TAB ===== -->
+  <div id="tab-tools" class="tab-content">
+    <div class="tools-grid">
+      <div class="tool-card"><span class="tool-emoji">🕷️</span><div class="tool-name">Burp Suite</div><div class="tool-tag">Web Testing</div></div>
+      <div class="tool-card"><span class="tool-emoji">🌐</span><div class="tool-name">OWASP ZAP</div><div class="tool-tag">Web Scanner</div></div>
+      <div class="tool-card"><span class="tool-emoji">🦈</span><div class="tool-name">Wireshark</div><div class="tool-tag">Packet Analysis</div></div>
+      <div class="tool-card"><span class="tool-emoji">🗺️</span><div class="tool-name">Nmap</div><div class="tool-tag">Port Scanner</div></div>
+      <div class="tool-card"><span class="tool-emoji">⚡</span><div class="tool-name">ffuf</div><div class="tool-tag">Fuzzing</div></div>
+      <div class="tool-card"><span class="tool-emoji">☢️</span><div class="tool-name">nuclei</div><div class="tool-tag">Vuln Scanner</div></div>
+      <div class="tool-card"><span class="tool-emoji">💉</span><div class="tool-name">sqlmap</div><div class="tool-tag">SQL Injection</div></div>
+      <div class="tool-card"><span class="tool-emoji">🐉</span><div class="tool-name">Hydra</div><div class="tool-tag">Brute Force</div></div>
+      <div class="tool-card"><span class="tool-emoji">🔓</span><div class="tool-name">John The Ripper</div><div class="tool-tag">Password Cracking</div></div>
+      <div class="tool-card"><span class="tool-emoji">🔥</span><div class="tool-name">Hashcat</div><div class="tool-tag">Hash Cracking</div></div>
+      <div class="tool-card"><span class="tool-emoji">💀</span><div class="tool-name">Metasploit</div><div class="tool-tag">Exploitation</div></div>
+      <div class="tool-card"><span class="tool-emoji">🦊</span><div class="tool-name">Rustscan</div><div class="tool-tag">Fast Scanner</div></div>
+      <div class="tool-card"><span class="tool-emoji">🐱</span><div class="tool-name">Netcat</div><div class="tool-tag">Networking</div></div>
+      <div class="tool-card"><span class="tool-emoji">🌀</span><div class="tool-name">tcpdump</div><div class="tool-tag">Packet Capture</div></div>
+      <div class="tool-card"><span class="tool-emoji">👁️</span><div class="tool-name">Splunk</div><div class="tool-tag">SIEM</div></div>
+      <div class="tool-card"><span class="tool-emoji">🧱</span><div class="tool-name">Wazuh</div><div class="tool-tag">XDR / SIEM</div></div>
+      <div class="tool-card"><span class="tool-emoji">📊</span><div class="tool-name">ELK Stack</div><div class="tool-tag">Log Analysis</div></div>
+      <div class="tool-card"><span class="tool-emoji">🐉</span><div class="tool-name">Kali Linux</div><div class="tool-tag">Pentesting OS</div></div>
+      <div class="tool-card"><span class="tool-emoji">🦜</span><div class="tool-name">Parrot OS</div><div class="tool-tag">Security OS</div></div>
+      <div class="tool-card"><span class="tool-emoji">🎯</span><div class="tool-name">gobuster</div><div class="tool-tag">Directory Brute</div></div>
+    </div>
+  </div>
+
+  <!-- ===== CERTS TAB ===== -->
+  <div id="tab-certs" class="tab-content">
+    <div class="certs-container">
+      <div class="cert-tier">
+        <div class="cert-tier-label" style="color:var(--accent)">🟢 Beginner Level</div>
+        <div class="cert-row">
+          <div class="cert-chip cert-beginner">Google Cybersecurity</div>
+          <div class="cert-chip cert-beginner">CompTIA Security+</div>
+          <div class="cert-chip cert-beginner">eJPT</div>
+        </div>
+      </div>
+      <div class="cert-tier">
+        <div class="cert-tier-label" style="color:var(--accent2)">🔵 Intermediate Level</div>
+        <div class="cert-row">
+          <div class="cert-chip cert-intermediate">PNPT</div>
+          <div class="cert-chip cert-intermediate">CEH</div>
+          <div class="cert-chip cert-intermediate">CySA+</div>
+        </div>
+      </div>
+      <div class="cert-tier">
+        <div class="cert-tier-label" style="color:var(--accent3)">🔴 Advanced Level</div>
+        <div class="cert-row">
+          <div class="cert-chip cert-advanced">OSCP</div>
+          <div class="cert-chip cert-advanced">CRTO</div>
+          <div class="cert-chip cert-advanced">OSWE</div>
+          <div class="cert-chip cert-advanced">CISSP</div>
+        </div>
+      </div>
+
+      <div style="margin-top:48px">
+        <div class="cert-tier-label" style="color:var(--accent4);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+          🟡 Practice Platforms
+          <span style="flex:1;height:1px;background:var(--border);display:block"></span>
+        </div>
+        <div class="platform-grid">
+          <div class="platform-card">
+            <span class="platform-icon">🔴</span>
+            <div class="platform-name">TryHackMe</div>
+            <div class="platform-type">Beginner Friendly</div>
+          </div>
+          <div class="platform-card">
+            <span class="platform-icon">⬛</span>
+            <div class="platform-name">Hack The Box</div>
+            <div class="platform-type">Intermediate+</div>
+          </div>
+          <div class="platform-card">
+            <span class="platform-icon">🕷️</span>
+            <div class="platform-name">PortSwigger Labs</div>
+            <div class="platform-type">Web Security</div>
+          </div>
+          <div class="platform-card">
+            <span class="platform-icon">🏁</span>
+            <div class="platform-name">PicoCTF</div>
+            <div class="platform-type">CTF Challenges</div>
+          </div>
+          <div class="platform-card">
+            <span class="platform-icon">🗡️</span>
+            <div class="platform-name">OverTheWire</div>
+            <div class="platform-type">Wargames</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CAREERS TAB ===== -->
+  <div id="tab-careers" class="tab-content">
+    <div class="career-grid">
+      <div class="career-card">
+        <span class="career-icon">🗡️</span>
+        <div class="career-title">Penetration Tester</div>
+        <div class="career-desc">Simulate attacks on systems, networks, and apps to find vulnerabilities before malicious actors do.</div>
+      </div>
+      <div class="career-card">
+        <span class="career-icon">🔬</span>
+        <div class="career-title">Security Researcher</div>
+        <div class="career-desc">Discover and disclose new vulnerabilities, CVEs, and zero-days. Publish research and advance the field.</div>
+      </div>
+      <div class="career-card">
+        <span class="career-icon">🖥️</span>
+        <div class="career-title">SOC Analyst</div>
+        <div class="career-desc">Monitor, detect, and respond to security incidents in real-time from a Security Operations Center.</div>
+      </div>
+      <div class="career-card">
+        <span class="career-icon">☁️</span>
+        <div class="career-title">Cloud Security Engineer</div>
+        <div class="career-desc">Secure cloud infrastructure, IAM policies, and services across AWS, Azure, and GCP environments.</div>
+      </div>
+      <div class="career-card">
+        <span class="career-icon">🦠</span>
+        <div class="career-title">Malware Analyst</div>
+        <div class="career-desc">Reverse-engineer malicious software to understand behavior, attribution, and create defenses.</div>
+      </div>
+      <div class="career-card">
+        <span class="career-icon">🎯</span>
+        <div class="career-title">Red Team Operator</div>
+        <div class="career-desc">Execute advanced persistent threat simulations against organizations using real-world attacker TTPs.</div>
+      </div>
+      <div class="career-card">
+        <span class="career-icon">🛡️</span>
+        <div class="career-title">Blue Team Analyst</div>
+        <div class="career-desc">Defend, detect, and respond to adversaries. Tune defenses and improve security posture.</div>
+      </div>
+      <div class="career-card">
+        <span class="career-icon">🔧</span>
+        <div class="career-title">DevSecOps Engineer</div>
+        <div class="career-desc">Integrate security into CI/CD pipelines, container orchestration, and software delivery processes.</div>
+      </div>
+      <div class="career-card">
+        <span class="career-icon">🏛️</span>
+        <div class="career-title">Security Architect</div>
+        <div class="career-desc">Design enterprise-wide security frameworks, policies, and technical architectures at the highest level.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LANGUAGES TAB ===== -->
+  <div id="tab-languages" class="tab-content">
+    <div class="lang-grid">
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">🐍</span>
+          <span class="lang-name">Python</span>
+          <span class="lang-level level-beginner">Beginner</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">Automation</span>
+          <span class="lang-use-tag">Recon Tools</span>
+          <span class="lang-use-tag">Exploit Dev</span>
+          <span class="lang-use-tag">APIs</span>
+          <span class="lang-use-tag">AI + Security</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">🖥️</span>
+          <span class="lang-name">Bash / Shell</span>
+          <span class="lang-level level-beginner">Beginner</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">Linux Auto</span>
+          <span class="lang-use-tag">Recon</span>
+          <span class="lang-use-tag">Log Analysis</span>
+          <span class="lang-use-tag">Pentesting</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">🗄️</span>
+          <span class="lang-name">SQL</span>
+          <span class="lang-level level-beginner">Beginner</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">SQLi</span>
+          <span class="lang-use-tag">DB Enum</span>
+          <span class="lang-use-tag">Data Handling</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">🌐</span>
+          <span class="lang-name">JavaScript</span>
+          <span class="lang-level level-beginner">Beginner</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">XSS</span>
+          <span class="lang-use-tag">DOM Manip</span>
+          <span class="lang-use-tag">Web Exploit</span>
+          <span class="lang-use-tag">Node.js</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">🪟</span>
+          <span class="lang-name">PowerShell</span>
+          <span class="lang-level level-intermediate">Intermediate</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">Windows Auto</span>
+          <span class="lang-use-tag">Active Dir</span>
+          <span class="lang-use-tag">Red Team</span>
+          <span class="lang-use-tag">Blue Team</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">⚙️</span>
+          <span class="lang-name">C</span>
+          <span class="lang-level level-intermediate">Intermediate</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">Memory Mgmt</span>
+          <span class="lang-use-tag">Buffer Overflow</span>
+          <span class="lang-use-tag">Low-Level</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">⚡</span>
+          <span class="lang-name">Go (Golang)</span>
+          <span class="lang-level level-intermediate">Intermediate</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">Security Tools</span>
+          <span class="lang-use-tag">Fast Scanning</span>
+          <span class="lang-use-tag">Cloud Security</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">🚀</span>
+          <span class="lang-name">C++</span>
+          <span class="lang-level level-advanced">Advanced</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">Exploit Dev</span>
+          <span class="lang-use-tag">Rev Eng</span>
+          <span class="lang-use-tag">Win Internals</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">🦀</span>
+          <span class="lang-name">Rust</span>
+          <span class="lang-level level-advanced">Advanced</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">Memory Safe</span>
+          <span class="lang-use-tag">Malware R&D</span>
+          <span class="lang-use-tag">High Perf</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">🧠</span>
+          <span class="lang-name">Assembly</span>
+          <span class="lang-level level-advanced">Advanced</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">Rev Eng</span>
+          <span class="lang-use-tag">Binary Exploit</span>
+          <span class="lang-use-tag">Malware Analysis</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">☕</span>
+          <span class="lang-name">Java</span>
+          <span class="lang-level level-advanced">Advanced</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">Android Sec</span>
+          <span class="lang-use-tag">Enterprise</span>
+          <span class="lang-use-tag">Mobile Pentest</span>
+        </div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header">
+          <span class="lang-emoji">🐘</span>
+          <span class="lang-name">PHP</span>
+          <span class="lang-level level-intermediate">Intermediate</span>
+        </div>
+        <div class="lang-uses">
+          <span class="lang-use-tag">Web App</span>
+          <span class="lang-use-tag">File Upload</span>
+          <span class="lang-use-tag">RCE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PLATFORMS TAB ===== -->
+  <div id="tab-platforms" class="tab-content">
+    <div style="margin-bottom:40px;">
+      <div class="cert-tier-label" style="color:var(--accent);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+        🟢 Practice Platforms
+        <span style="flex:1;height:1px;background:var(--border);display:block"></span>
+      </div>
+      <div class="platform-grid">
+        <div class="platform-card" onclick="window.open('https://tryhackme.com','_blank')" style="cursor:pointer">
+          <span class="platform-icon">🔴</span>
+          <div class="platform-name">TryHackMe</div>
+          <div class="platform-type">Beginner Friendly</div>
+        </div>
+        <div class="platform-card" onclick="window.open('https://hackthebox.com','_blank')" style="cursor:pointer">
+          <span class="platform-icon">⬛</span>
+          <div class="platform-name">Hack The Box</div>
+          <div class="platform-type">Intermediate+</div>
+        </div>
+        <div class="platform-card" onclick="window.open('https://portswigger.net/web-security','_blank')" style="cursor:pointer">
+          <span class="platform-icon">🕷️</span>
+          <div class="platform-name">PortSwigger Labs</div>
+          <div class="platform-type">Web Security</div>
+        </div>
+        <div class="platform-card" onclick="window.open('https://picoctf.org','_blank')" style="cursor:pointer">
+          <span class="platform-icon">🏁</span>
+          <div class="platform-name">PicoCTF</div>
+          <div class="platform-type">CTF Challenges</div>
+        </div>
+        <div class="platform-card" onclick="window.open('https://overthewire.org','_blank')" style="cursor:pointer">
+          <span class="platform-icon">🗡️</span>
+          <div class="platform-name">OverTheWire</div>
+          <div class="platform-type">Wargames</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="cert-tier-label" style="color:var(--accent4);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+        💰 Bug Bounty Platforms
+        <span style="flex:1;height:1px;background:var(--border);display:block"></span>
+      </div>
+      <div class="platform-grid">
+        <div class="platform-card" onclick="window.open('https://hackerone.com','_blank')" style="cursor:pointer">
+          <span class="platform-icon">⚡</span>
+          <div class="platform-name">HackerOne</div>
+          <div class="platform-type">Bug Bounty</div>
+        </div>
+        <div class="platform-card" onclick="window.open('https://bugcrowd.com','_blank')" style="cursor:pointer">
+          <span class="platform-icon">🐞</span>
+          <div class="platform-name">Bugcrowd</div>
+          <div class="platform-type">Bug Bounty</div>
+        </div>
+        <div class="platform-card" onclick="window.open('https://intigriti.com','_blank')" style="cursor:pointer">
+          <span class="platform-icon">🎯</span>
+          <div class="platform-name">Intigriti</div>
+          <div class="platform-type">Bug Bounty</div>
+        </div>
+        <div class="platform-card" onclick="window.open('https://yeswehack.com','_blank')" style="cursor:pointer">
+          <span class="platform-icon">🏹</span>
+          <div class="platform-name">YesWeHack</div>
+          <div class="platform-type">Bug Bounty</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:32px;">
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;margin-bottom:8px;">🚀 Continuous Growth</div>
+      <div style="color:var(--muted);font-size:14px;margin-bottom:24px;line-height:1.7;">The field evolves daily. Build these habits:</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <span class="lang-use-tag">📰 Read Security Blogs</span>
+        <span class="lang-use-tag">⚠️ Follow CVEs & Exploits</span>
+        <span class="lang-use-tag">👥 Join Communities</span>
+        <span class="lang-use-tag">🏁 Participate in CTFs</span>
+        <span class="lang-use-tag">🖥️ Build Personal Labs</span>
+        <span class="lang-use-tag">📅 Stay Updated Daily</span>
+        <span class="lang-use-tag">🔁 Practice Consistently</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  Built for <span>hackers</span> & <span>defenders</span> alike · CyberPath 2025
+</footer>
+
+<script>
+  // Tab switching
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = (scrolled / total) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  });
+
+  // Stagger card entry
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '0';
+        entry.target.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          entry.target.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }, entry.target.dataset.delay || 0);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.phase-card, .tool-card, .career-card, .lang-card').forEach((el, i) => {
+    el.dataset.delay = (i % 6) * 60;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
