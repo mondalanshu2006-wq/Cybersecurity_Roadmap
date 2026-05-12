@@ -14,7 +14,7 @@
 ```bash
 $ cat /etc/profile.d/me.sh
 
-NAME="Your Name"
+NAME="ALEX_098"
 ROLE="Cybersecurity Enthusiast | Ethical Hacker | CTF Player"
 LOCATION="WEST BENGAL"
 STATUS="Learning · Building · Breaking · Defending"
@@ -28,7 +28,7 @@ STATUS="Learning · Building · Breaking · Defending"
 
 ---
 
-## `$ nmap -sV --open github.com/yourname`
+## `$ nmap -sV --open github.com/https://github.com/mondalanshu2006-wq`
 
 ```
 PORT        STATE   SERVICE       VERSION
